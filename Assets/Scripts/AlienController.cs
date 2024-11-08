@@ -7,7 +7,8 @@ public class AlienController : MonoBehaviour
     [SerializeField] private Transform spawnPoint;
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private float jumpForce = 5f;
-    [SerializeField] private LayerMask groundLayer; 
+    [SerializeField] private LayerMask groundLayer;
+    [SerializeField] private LayerMask sprinkleLayer;
     [SerializeField] private BoxCollider2D boxCollider;
 
     private Rigidbody2D rb;
@@ -19,31 +20,40 @@ public class AlienController : MonoBehaviour
 
     private void Update()
     {
+        if(IsCollidingWith(sprinkleLayer))
+        {
+            transform.position = spawnPoint.position;
+        }
+
         // Movement
         float moveInput = Input.GetAxis("Horizontal");
         rb.velocity = new Vector2(moveInput * moveSpeed, rb.velocity.y);
 
         // Jump
-        if (Input.GetKeyDown(KeyCode.Space) && IsGrounded())
+        if(Input.GetKeyDown(KeyCode.Space) && IsCollidingWith(groundLayer))
         {
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
         }
     }
 
-    private bool IsGrounded()
+    private bool IsCollidingWith(LayerMask mask)
     {
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, boxCollider.bounds.extents.y + 0.1f, groundLayer);
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, boxCollider.bounds.extents.y + 0.1f, mask);
         return hit.collider != null;
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Coin")) 
+        if(other.CompareTag("Coin")) 
         {
             Destroy(other.gameObject);
         }
-    }
 
+        if (other.CompareTag("Checkpoint"))
+        {
+            spawnPoint = other.GetComponent<Checkpoint>().GetSpawnPoint();
+        }
+    }
 
     private void OnDrawGizmos()
     {
