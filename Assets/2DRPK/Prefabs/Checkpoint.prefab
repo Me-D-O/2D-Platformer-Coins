@@ -92,7 +92,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a4d770ce7a34664e995c15864b8d7df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  activeColor: {r: 0.13573885, g: 1, b: 0, a: 1}
+  inactiveColor: {r: 1, g: 0, b: 0.08150673, a: 1}
   spawnPoint: {fileID: 2434618100506793063}
+  indicatorRenderer: {fileID: 5050630920862769303}
 --- !u!1 &6348107256873523060
 GameObject:
   m_ObjectHideFlags: 0

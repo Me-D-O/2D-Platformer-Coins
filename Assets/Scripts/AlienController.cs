@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AlienController : MonoBehaviour
 {
-    [SerializeField] private Transform spawnPoint;
+    private Transform spawnPoint;
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private float jumpForce = 5f;
     [SerializeField] private LayerMask groundLayer;
@@ -51,7 +51,13 @@ public class AlienController : MonoBehaviour
 
         if (other.CompareTag("Checkpoint"))
         {
+            if(spawnPoint != null)
+            {
+                spawnPoint.GetComponentInParent<Checkpoint>().SetCheckpointState(false);
+            }
+
             spawnPoint = other.GetComponent<Checkpoint>().GetSpawnPoint();
+            other.GetComponent<Checkpoint>().SetCheckpointState(true);
         }
     }
 
