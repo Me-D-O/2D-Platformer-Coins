@@ -16,7 +16,7 @@ public class Checkpoint : MonoBehaviour
 
     private void Awake()
     {
-        indicatorRenderer.color = inActiveColor;
+        //indicatorRenderer.color = inActiveColor;
     }
 
     public Transform GetSpawnPoint()

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,6 +13,9 @@ public class AlienController : MonoBehaviour
     [SerializeField] private BoxCollider2D boxCollider;
 
     private Rigidbody2D rb;
+
+    public Action<int> OnCoinCollected;
+    private int coinsCollected = 0;
 
     private void Awake()
     {
@@ -46,6 +50,8 @@ public class AlienController : MonoBehaviour
     {
         if(other.CompareTag("Coin")) 
         {
+            coinsCollected++;
+            OnCoinCollected?.Invoke(coinsCollected);
             Destroy(other.gameObject);
         }
 
